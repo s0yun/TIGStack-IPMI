@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana-data:/var/lib/grafana
+  influxdb:
+    image: influxdb:1.8
+    container_name: influxdb
+    restart: always
+    ports:
+      - 8086:8086
+    environment:
+      INFLUXDB_DB: tigstack
+    volumes:
+      - influx-data:/var/lib/influxdb
+  telegraf:
+    image: telegraf_ipmi:latest 
+    container_name: telegraf
+    restart: always
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+volumes:
+  influx-data:
+  grafana-data:
+
